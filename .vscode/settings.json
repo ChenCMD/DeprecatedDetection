@@ -1,0 +1,7 @@
+{
+    "files.exclude": {
+        "**/.bloop": true,
+        "**/.bsp": true,
+        "**/.metals": true
+    }
+}
