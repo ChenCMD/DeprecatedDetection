@@ -10,3 +10,5 @@ server/project/**
 !server/project/build.properties
 !server/project/plugins.sbt
 server/target
+
+**/node_modules

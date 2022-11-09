@@ -3,5 +3,8 @@
         "**/.bloop": true,
         "**/.bsp": true,
         "**/.metals": true
+    },
+    "files.watcherExclude": {
+        "**/target": true
     }
 }

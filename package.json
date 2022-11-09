@@ -1,0 +1,20 @@
+{
+    "name": "impdoc-utility",
+    "displayName": "IMPDocUtility",
+    "version": "0.1.0",
+    "publisher": "ChenCMD",
+    "author": {
+        "name": "ChenCMD",
+        "url": "https://github.com/ChenCMD"
+    },
+    "main": "./client/dist/extension.js",
+    "engines": {
+        "vscode": "^1.69.1"
+    },
+    "scripts": {
+        "compile": "",
+        "compile:client": "cd client&&webpack --mode production",
+        "compile:client:dev": "cd client&&webpack --mode development",
+        "compile:server": "cd server&&sbt fastLinkJS"
+    }
+}
