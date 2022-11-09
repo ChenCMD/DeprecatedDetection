@@ -3,6 +3,8 @@ MACOSX
 
 .idea
 
+**/dist
+
 **/.bloop
 **/.bsp
 **/.metals
