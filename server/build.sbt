@@ -4,6 +4,8 @@ ThisBuild / scalaVersion := "3.2.1"
 
 enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
 
+Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "dist"
+
 scalaJSUseMainModuleInitializer := true
 
 libraryDependencies ++= Seq(
