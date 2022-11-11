@@ -4,7 +4,7 @@ import scala.util.chaining.*
 
 import jsonrpclib.fs2.catsMonadic
 
-import langoustine.lsp.*
+import langoustine.lsp.{requests as R, structures as S, enumerations as E, *}
 import langoustine.lsp.app.LangoustineApp
 import langoustine.lsp.runtime.*
 
@@ -15,9 +15,6 @@ import fs2.io.file.{Path, Files}
 import fs2.text.*
 
 object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
-  import requests as R
-  import structures as S
-  import enumerations as E
 
   def server: IO[LSPBuilder[IO]] = IO(create)
 
