@@ -12,9 +12,11 @@
         "vscode": "^1.69.1"
     },
     "scripts": {
-        "compile": "",
-        "compile:client": "cd client&&webpack --mode production",
-        "compile:client:dev": "cd client&&webpack --mode development",
-        "compile:server": "cd server&&sbt fastLinkJS"
+        "compile": "yarn compile:client && yarn compile:server",
+        "compile:dev": "yarn compile:client:dev && yarn compile:server:dev",
+        "compile:client": "cd client && yarn compile",
+        "compile:client:dev": "cd client && yarn compile:dev",
+        "compile:server": "cd server && rm -rf dist && sbt fullLinkJS",
+        "compile:server:dev": "cd server && rm -rf dist && sbt fastLinkJS"
     }
 }
