@@ -53,12 +53,12 @@ object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
   }
 
   extension (uri: DocumentUri) {
-    def getDocument[F[_]: Async](): F[String] = {
+    def getDocument(): IO[String] = {
       uri.value
         .drop("file://".length)
         .pipe(Path.apply)
-        .pipe(Files[F].readAll)
-        .through(text.utf8.decode)
+        .pipe(Files[IO].readAll)
+        .through(utf8.decode)
         .compile
         .string
     }
