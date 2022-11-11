@@ -16,16 +16,12 @@ import fs2.io.file.Path
 import fs2.io.file.Files
 import fs2.text
 
-object IMPDocUtilityLanguageServer extends LangoustineApp {
+object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
   import requests as R
   import structures as S
   import enumerations as E
 
-  def server(args: List[String]): Resource[IO, LSPBuilder[IO]] = {
-    Resource.make(IO(create)) { _ =>
-      IO.consoleForIO.errorln("Terminating server")
-    }
-  }
+  def server: IO[LSPBuilder[IO]] = IO(create)
 
   def create: LSPBuilder[IO] = {
     LSPBuilder
