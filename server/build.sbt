@@ -1,10 +1,14 @@
+name := "IMPDocUtil"
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "3.2.1"
 
-enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
+enablePlugins(ScalaJSPlugin)
 
 Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "dist"
+Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "dist"
+
+scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
 
 scalaJSUseMainModuleInitializer := true
 
@@ -14,11 +18,3 @@ libraryDependencies ++= Seq(
   "tech.neander" %%% "langoustine-app" % "0.0.17",
   "org.scalatest" %% "scalatest" % "3.2.14" % Test
 )
-
-useYarn := true
-
-lazy val root = (project in file("."))
-  .settings(
-    name := "IMPDocUtil",
-    idePackagePrefix := Some("com.github.chencmd.impdocutil")
-  )
