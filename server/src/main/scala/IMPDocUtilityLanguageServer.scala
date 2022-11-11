@@ -8,13 +8,11 @@ import langoustine.lsp.*
 import langoustine.lsp.app.LangoustineApp
 import langoustine.lsp.runtime.*
 
-import cats.effect.kernel.Async
-import cats.effect.{IO, Resource}
+import cats.effect.IO
 import cats.implicits.given
 
-import fs2.io.file.Path
-import fs2.io.file.Files
-import fs2.text
+import fs2.io.file.{Path, Files}
+import fs2.text.*
 
 object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
   import requests as R
@@ -43,9 +41,6 @@ object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
           )
         )
       }
-    // .handleNotification(R.textDocument.formatting) { (inv: Invocation[R.textDocument.formatting.In, IO]) =>
-    //   inv.params.textDocument.uri.getDocument[IO]
-    // }
   }
 
   def sendMessage(
