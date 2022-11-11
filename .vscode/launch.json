@@ -1,0 +1,41 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "extensionHost",
+            "request": "launch",
+            "name": "Launch Client",
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}/"
+            ],
+            "sourceMaps": true,
+            "outFiles": [
+                "${workspaceFolder}/client/dist/**/*.js"
+            ],
+            "preLaunchTask": "npm: compile:dev"
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Server",
+            "port": 6011,
+            "restart": true,
+            "outFiles": [
+                "${workspaceFolder}/server/dist/**/*.js"
+            ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "client + server",
+            "configurations": [
+                "Launch Client",
+                "Attach to Server"
+            ]
+        }
+    ]
+}
