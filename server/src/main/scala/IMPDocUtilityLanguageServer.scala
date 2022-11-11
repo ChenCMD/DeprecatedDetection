@@ -21,9 +21,9 @@ object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
   def create: LSPBuilder[IO] = {
     LSPBuilder
       .create[IO]
-      .handleRequest(R.initialize) { inv =>
+      .handleRequest(R.initialize) { in =>
         sendMessage(
-          inv.toClient,
+          in.toClient,
           E.MessageType.Info,
           "server activated"
         ) as S.InitializeResult(
