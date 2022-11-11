@@ -52,6 +52,16 @@ object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
     // }
   }
 
+  def sendMessage(
+      back: Communicate[IO],
+      messageType: E.MessageType,
+      msg: String
+  ): IO[Unit] = {
+    back.notification(
+      R.window.showMessage,
+      S.ShowMessageParams(messageType, msg))
+  }
+
   extension (uri: DocumentUri) {
     def getDocument(): IO[String] = {
       uri.value
