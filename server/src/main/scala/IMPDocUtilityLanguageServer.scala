@@ -22,9 +22,9 @@ object IMPDocUtilityLanguageServer extends LangoustineApp {
   import enumerations as E
 
   def server(args: List[String]): Resource[IO, LSPBuilder[IO]] = {
-    Resource.make(IO(create))(_ =>
+    Resource.make(IO(create)) { _ =>
       IO.consoleForIO.errorln("Terminating server")
-    )
+    }
   }
 
   def create: LSPBuilder[IO] = {
@@ -34,16 +34,16 @@ object IMPDocUtilityLanguageServer extends LangoustineApp {
         for {
           _ <- inv.toClient.notification(
             R.window.showMessage,
-            S.ShowMessageParams(E.MessageType.Info, "test")
+            S.ShowMessageParams(E.MessageType.Info, "server activated")
           )
           res <- IO {
             S.InitializeResult(
               S.ServerCapabilities(
-                documentFormattingProvider = Opt(true)
+                // documentFormattingProvider = Opt(true)
               ),
               Opt(
                 S.InitializeResult.ServerInfo(
-                  name = "neko",
+                  name = "IMPDoc Utility",
                   version = Opt("0.0.1")
                 )
               )
