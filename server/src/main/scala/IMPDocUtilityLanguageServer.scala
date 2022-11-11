@@ -27,25 +27,21 @@ object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
     LSPBuilder
       .create[IO]
       .handleRequest(R.initialize) { inv =>
-        for {
-          _ <- inv.toClient.notification(
-            R.window.showMessage,
-            S.ShowMessageParams(E.MessageType.Info, "server activated")
-          )
-          res <- IO {
-            S.InitializeResult(
-              S.ServerCapabilities(
-                // documentFormattingProvider = Opt(true)
-              ),
-              Opt(
-                S.InitializeResult.ServerInfo(
-                  name = "IMPDoc Utility",
-                  version = Opt("0.0.1")
-                )
-              )
+        sendMessage(
+          inv.toClient,
+          E.MessageType.Info,
+          "server activated"
+        ) as S.InitializeResult(
+          S.ServerCapabilities(
+            // documentFormattingProvider = Opt(true)
+          ),
+          Opt(
+            S.InitializeResult.ServerInfo(
+              name = "IMPDoc Utility",
+              version = Opt("0.0.1")
             )
-          }
-        } yield res
+          )
+        )
       }
     // .handleNotification(R.textDocument.formatting) { (inv: Invocation[R.textDocument.formatting.In, IO]) =>
     //   inv.params.textDocument.uri.getDocument[IO]
