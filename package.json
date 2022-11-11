@@ -7,7 +7,7 @@
         "name": "ChenCMD",
         "url": "https://github.com/ChenCMD"
     },
-    "main": "./client/dist/extension.js",
+    "main": "client/dist/extension.js",
     "engines": {
         "vscode": "^1.69.1"
     },
@@ -18,5 +18,35 @@
         "compile:client:dev": "cd client && yarn compile:dev",
         "compile:server": "cd server && rm -rf dist && sbt fullLinkJS",
         "compile:server:dev": "cd server && rm -rf dist && sbt fastLinkJS"
+    },
+    "activationEvents": [
+        "*"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "mcfunction",
+                "extensions": [
+                    ".mcfunction"
+                ]
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "IMPDocUtility configuration",
+            "properties": {
+                "IMPDocUtility.trace.server": {
+                    "scope": "window",
+                    "type": "string",
+                    "enum": [
+                        "off",
+                        "messages",
+                        "verbose"
+                    ],
+                    "default": "verbose",
+                    "description": "VS Codeと言語サーバーの間でのトレースを表示する"
+                }
+            }
+        }
     }
 }
