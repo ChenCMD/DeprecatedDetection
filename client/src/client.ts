@@ -19,11 +19,11 @@ export function activate({ extensionUri }: vsc.ExtensionContext): void {
   const serverOptions: lc.ServerOptions = {
     run: {
       module: serverModule,
-      transport: lc.TransportKind.ipc,
+      transport: lc.TransportKind.stdio,
     },
     debug: {
       module: serverModule,
-      transport: lc.TransportKind.ipc,
+      transport: lc.TransportKind.stdio,
       options: debugOptions,
     }
   };
