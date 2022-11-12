@@ -52,9 +52,7 @@ export function activate({ extensionUri }: vsc.ExtensionContext): void {
   }
 
   // Start the client. This will also launch the server
-  client?.start()
-    .then(() => console.log('server activated!!'))
-    .catch(e => console.error("e2:", e));
+  client?.start().catch(e => console.error("e2:", e));
 }
 
 export async function deactivate(): Promise<void> {
