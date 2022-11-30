@@ -19,6 +19,7 @@ import cats.effect.IO
 import io.scalajs.nodejs.path.Path
 import io.scalajs.nodejs.url.URL
 import io.scalajs.nodejs.fs.*
+import generic.IOExtra
 
 object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
 
@@ -55,9 +56,7 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
           targetDoc <- for {
             targetPath <- IO.pure[DocumentUri](docUri.parent / target)
             existsFile <- exists(targetPath)
-            doc <-
-              if existsFile then getDocument(targetPath).option
-              else IO.pure(None)
+            doc <- IOExtra.whenA(existsFile)(getDocument(targetPath))
           } yield doc
 
           report <- IO.pure {
