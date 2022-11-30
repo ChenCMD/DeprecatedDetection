@@ -2,8 +2,9 @@ package com.github.chencmd.impdocutil
 
 import scala.util.chaining.*
 
-import generic.IOExtra
+import generic.*
 import generic.extensions.DocumentUriExt.*
+import generic.extensions.TextDocumentExt.*
 
 import jsonrpclib.fs2.catsMonadic
 
@@ -14,6 +15,7 @@ import langoustine.lsp.{
   aliases as A,
   *
 }
+import langoustine.lsp.structures.{TextDocumentIdentifier as TextDocument}
 import langoustine.lsp.app.LangoustineApp
 import langoustine.lsp.runtime.*
 
@@ -53,34 +55,33 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
       }
       .handleRequest(R.textDocument.diagnostic) { in =>
         for {
-          docUri <- IO.pure(in.params.textDocument.uri)
-          target <- getDocument(docUri)
-          targetDoc <- for {
-            targetPath <- IO.pure(docUri.parent / target)
-            existsFile <- exists(targetPath)
-            doc <- IOExtra.whenA(existsFile)(getDocument(targetPath))
-          } yield doc
+          cDoc <- IO.pure(in.params.textDocument)
+          cDocContents <- cDoc.getText()
 
-          report <- IO.pure {
-            S.RelatedFullDocumentDiagnosticReport(
-              relatedDocuments = Opt.empty,
-              kind = "full",
-              resultId = Opt.empty,
-              items = if targetDoc.exists(s => s.contains("deprecated")) then {
-                Vector(
-                  S.Diagnostic(
-                    range =
-                      S.Range(S.Position(0, 0), S.Position(0, target.length())),
-                    message = s"deprecated file: $target",
-                    tags = Opt(Vector(E.DiagnosticTag.Deprecated))
-                  )
+          tDoc <- IO.pure(TextDocument(cDoc.uri.parent / cDocContents))
+          existsTargetDoc <- tDoc.exists()
+          tDocContents <- IOExtra.whenA(existsTargetDoc)(tDoc.getText())
+
+          isDocDeprecated <- IO.pure(tDocContents.exists(_ == "deprecated"))
+
+        } yield A.DocumentDiagnosticReport(
+          S.RelatedFullDocumentDiagnosticReport(
+            relatedDocuments = Opt.empty,
+            kind = "full",
+            resultId = Opt.empty,
+            items = VectorExtra.when(isDocDeprecated) {
+              Vector(
+                S.Diagnostic(
+                  range = S.Range(
+                    S.Position(0, 0),
+                    S.Position(0, cDocContents.length())),
+                  message = s"deprecated file: $cDocContents",
+                  tags = Opt(Vector(E.DiagnosticTag.Deprecated))
                 )
-              } else {
-                Vector.empty
-              }
-            )
-          }
-        } yield A.DocumentDiagnosticReport(report)
+              )
+            }
+          )
+        )
       }
   }
 
