@@ -34,6 +34,11 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
           "server activated"
         ) as S.InitializeResult(
           S.ServerCapabilities(
+            diagnosticProvider = Opt(
+              S.DiagnosticOptions(
+                interFileDependencies = true,
+                workspaceDiagnostics = false
+              ))
           ),
           Opt(
             S.InitializeResult.ServerInfo(
@@ -42,6 +47,39 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
             )
           )
         )
+      }
+      .handleRequest(R.textDocument.diagnostic) { in =>
+        val docUri = in.params.textDocument.uri
+        for {
+          target <- getDocument(docUri)
+          targetDoc <- for {
+            targetPath <- IO.pure[DocumentUri](docUri.parent / target)
+            existsFile <- exists(targetPath)
+            doc <-
+              if existsFile then getDocument(targetPath).option
+              else IO.pure(None)
+          } yield doc
+
+          report <- IO.pure {
+            S.RelatedFullDocumentDiagnosticReport(
+              relatedDocuments = Opt.empty,
+              kind = "full",
+              resultId = Opt.empty,
+              items = if (targetDoc.exists(s => s.contains("deprecated"))) {
+                Vector(
+                  S.Diagnostic(
+                    range =
+                      S.Range(S.Position(0, 0), S.Position(0, target.length())),
+                    message = s"deprecated file: $target",
+                    tags = Opt(Vector(E.DiagnosticTag.Deprecated))
+                  )
+                )
+              } else {
+                Vector.empty
+              }
+            )
+          }
+        } yield A.DocumentDiagnosticReport(report)
       }
   }
 

@@ -23,14 +23,6 @@
         "*"
     ],
     "contributes": {
-        "languages": [
-            {
-                "id": "mcfunction",
-                "extensions": [
-                    ".mcfunction"
-                ]
-            }
-        ],
         "configuration": {
             "type": "object",
             "title": "DeprecatedDetection configuration",

@@ -29,7 +29,7 @@ export function activate({ extensionUri }: vsc.ExtensionContext): void {
   };
 
   const documentSelector: lc.DocumentSelector = [
-    { language: 'mcfunction' }
+    { language: 'plaintext' }
   ];
 
   // Options to control the language client
