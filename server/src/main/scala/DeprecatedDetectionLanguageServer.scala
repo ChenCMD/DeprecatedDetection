@@ -94,12 +94,4 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
       S.ShowMessageParams(messageType, msg)
     )
   }
-
-  def getDocument(docUri: DocumentUri): IO[String] = {
-    IO(Fs.readFileFuture(docUri.toPath, "utf8")).pipe(IO.fromFuture)
-  }
-
-  def exists(docUri: DocumentUri): IO[Boolean] = {
-    IO(Fs.existsFuture(docUri.toPath)).pipe(IO.fromFuture)
-  }
 }
