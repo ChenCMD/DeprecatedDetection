@@ -95,11 +95,15 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
 
   extension (docUri: DocumentUri) {
     def parent: DocumentUri = {
-      Path.dirname(docUri).pipe(pathToUri)
+      Path.dirname(docUri.toPath).pipe(pathToUri)
     }
 
     def /(after: String): DocumentUri = {
-      s"$docUri/$after".pipe(pathToUri)
+      s"${docUri.toPath}/$after".pipe(pathToUri)
+    }
+
+    def toPath: String = {
+      URL.fileURLToPath(docUri.value)
     }
 
     private def pathToUri(path: String): DocumentUri = {
@@ -108,13 +112,10 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
   }
 
   def getDocument(docUri: DocumentUri): IO[String] = {
-    IO(Fs.readFileFuture(docUri, "utf8")).pipe(IO.fromFuture)
+    IO(Fs.readFileFuture(docUri.toPath, "utf8")).pipe(IO.fromFuture)
   }
 
   def exists(docUri: DocumentUri): IO[Boolean] = {
-    IO(Fs.existsFuture(docUri)).pipe(IO.fromFuture)
+    IO(Fs.existsFuture(docUri.toPath)).pipe(IO.fromFuture)
   }
-
-  private given Conversion[DocumentUri, String] = doc =>
-    URL.fileURLToPath(doc.value)
 }
