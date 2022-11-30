@@ -50,11 +50,11 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
         )
       }
       .handleRequest(R.textDocument.diagnostic) { in =>
-        val docUri = in.params.textDocument.uri
         for {
+          docUri <- IO.pure(in.params.textDocument.uri)
           target <- getDocument(docUri)
           targetDoc <- for {
-            targetPath <- IO.pure[DocumentUri](docUri.parent / target)
+            targetPath <- IO.pure(docUri.parent / target)
             existsFile <- exists(targetPath)
             doc <- IOExtra.whenA(existsFile)(getDocument(targetPath))
           } yield doc
@@ -64,7 +64,7 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
               relatedDocuments = Opt.empty,
               kind = "full",
               resultId = Opt.empty,
-              items = if (targetDoc.exists(s => s.contains("deprecated"))) {
+              items = if targetDoc.exists(s => s.contains("deprecated")) then {
                 Vector(
                   S.Diagnostic(
                     range =
@@ -91,7 +91,6 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
       R.window.showMessage,
       S.ShowMessageParams(messageType, msg))
   }
-
 
   extension (docUri: DocumentUri) {
     def parent: DocumentUri = {
