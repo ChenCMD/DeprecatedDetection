@@ -1,6 +1,6 @@
 {
-    "name": "impdoc-utility",
-    "displayName": "IMPDocUtility",
+    "name": "deprecated-detection",
+    "displayName": "DeprecatedDetection",
     "version": "0.1.0",
     "publisher": "ChenCMD",
     "author": {
@@ -33,9 +33,9 @@
         ],
         "configuration": {
             "type": "object",
-            "title": "IMPDocUtility configuration",
+            "title": "DeprecatedDetection configuration",
             "properties": {
-                "IMPDocUtility.trace.server": {
+                "DeprecatedDetection.trace.server": {
                     "scope": "window",
                     "type": "string",
                     "enum": [

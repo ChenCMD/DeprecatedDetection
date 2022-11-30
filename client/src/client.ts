@@ -42,8 +42,8 @@ export function activate({ extensionUri }: vsc.ExtensionContext): void {
   // Create the language client and start the client.
   try {
     client = new lc.LanguageClient(
-      'IMPDocUtility',
-      'IMPDoc Utility',
+      'DeprecatedDetection',
+      'Deprecated Detection',
       serverOptions,
       clientOptions
     );

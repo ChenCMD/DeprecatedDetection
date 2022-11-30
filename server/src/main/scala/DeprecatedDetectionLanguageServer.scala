@@ -4,7 +4,13 @@ import scala.util.chaining.*
 
 import jsonrpclib.fs2.catsMonadic
 
-import langoustine.lsp.{requests as R, structures as S, enumerations as E, *}
+import langoustine.lsp.{
+  requests as R,
+  structures as S,
+  enumerations as E,
+  aliases as A,
+  *
+}
 import langoustine.lsp.app.LangoustineApp
 import langoustine.lsp.runtime.*
 
@@ -14,7 +20,7 @@ import io.scalajs.nodejs.path.Path
 import io.scalajs.nodejs.url.URL
 import io.scalajs.nodejs.fs.*
 
-object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
+object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
 
   def server: IO[LSPBuilder[IO]] = IO(create)
 
@@ -28,11 +34,10 @@ object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
           "server activated"
         ) as S.InitializeResult(
           S.ServerCapabilities(
-            // documentFormattingProvider = Opt(true)
           ),
           Opt(
             S.InitializeResult.ServerInfo(
-              name = "IMPDoc Utility",
+              name = "Deprecated Detection",
               version = Opt("0.0.1")
             )
           )
