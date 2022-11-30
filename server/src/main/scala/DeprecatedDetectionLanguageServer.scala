@@ -89,20 +89,17 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
   ): IO[Unit] = {
     back.notification(
       R.window.showMessage,
-      S.ShowMessageParams(messageType, msg))
+      S.ShowMessageParams(messageType, msg)
+    )
   }
 
   extension (docUri: DocumentUri) {
     def parent: DocumentUri = {
-      docUri
-        .pipe(Path.dirname(_))
-        .pipe(pathToUri)
+      Path.dirname(docUri).pipe(pathToUri)
     }
 
     def /(after: String): DocumentUri = {
-      docUri
-        .pipe(s => s"$s/$after")
-        .pipe(pathToUri)
+      s"$docUri/$after".pipe(pathToUri)
     }
 
     private def pathToUri(path: String): DocumentUri = {
