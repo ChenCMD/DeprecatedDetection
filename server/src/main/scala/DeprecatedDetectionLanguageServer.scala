@@ -2,6 +2,9 @@ package com.github.chencmd.impdocutil
 
 import scala.util.chaining.*
 
+import generic.IOExtra
+import generic.extensions.DocumentUriExt.*
+
 import jsonrpclib.fs2.catsMonadic
 
 import langoustine.lsp.{
@@ -19,7 +22,6 @@ import cats.effect.IO
 import io.scalajs.nodejs.path.Path
 import io.scalajs.nodejs.url.URL
 import io.scalajs.nodejs.fs.*
-import generic.IOExtra
 
 object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
 
@@ -91,24 +93,6 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
       R.window.showMessage,
       S.ShowMessageParams(messageType, msg)
     )
-  }
-
-  extension (docUri: DocumentUri) {
-    def parent: DocumentUri = {
-      Path.dirname(docUri.toPath).pipe(pathToUri)
-    }
-
-    def /(after: String): DocumentUri = {
-      s"${docUri.toPath}/$after".pipe(pathToUri)
-    }
-
-    def toPath: String = {
-      URL.fileURLToPath(docUri.value)
-    }
-
-    private def pathToUri(path: String): DocumentUri = {
-      DocumentUri(URL.pathToFileURL(path).toString)
-    }
   }
 
   def getDocument(docUri: DocumentUri): IO[String] = {
