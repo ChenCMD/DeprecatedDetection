@@ -21,5 +21,6 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "2.8.0",
   "org.typelevel" %% "cats-effect" % "3.3.14",
   "tech.neander" %%% "langoustine-app" % "0.0.17",
-  "org.scalatest" %% "scalatest" % "3.2.14" % Test
+  "org.scalatest" %% "scalatest" % "3.2.14" % Test,
+  "net.exoego" %%% "scala-js-nodejs-v16" % "0.14.0" cross CrossVersion.for3Use2_13
 )

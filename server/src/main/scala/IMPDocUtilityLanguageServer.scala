@@ -9,10 +9,10 @@ import langoustine.lsp.app.LangoustineApp
 import langoustine.lsp.runtime.*
 
 import cats.effect.IO
-import cats.implicits.given
 
-import fs2.io.file.{Path, Files}
-import fs2.text.*
+import io.scalajs.nodejs.path.Path
+import io.scalajs.nodejs.url.URL
+import io.scalajs.nodejs.fs.*
 
 object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
 
@@ -50,15 +50,33 @@ object IMPDocUtilityLanguageServer extends LangoustineApp.Simple {
       S.ShowMessageParams(messageType, msg))
   }
 
-  extension (uri: DocumentUri) {
-    def getDocument(): IO[String] = {
-      uri.value
-        .drop("file://".length)
-        .pipe(Path.apply)
-        .pipe(Files[IO].readAll)
-        .through(utf8.decode)
-        .compile
-        .string
+
+  extension (docUri: DocumentUri) {
+    def parent: DocumentUri = {
+      docUri
+        .pipe(Path.dirname(_))
+        .pipe(pathToUri)
+    }
+
+    def /(after: String): DocumentUri = {
+      docUri
+        .pipe(s => s"$s/$after")
+        .pipe(pathToUri)
+    }
+
+    private def pathToUri(path: String): DocumentUri = {
+      DocumentUri(URL.pathToFileURL(path).toString)
     }
   }
+
+  def getDocument(docUri: DocumentUri): IO[String] = {
+    IO(Fs.readFileFuture(docUri, "utf8")).pipe(IO.fromFuture)
+  }
+
+  def exists(docUri: DocumentUri): IO[Boolean] = {
+    IO(Fs.existsFuture(docUri)).pipe(IO.fromFuture)
+  }
+
+  private given Conversion[DocumentUri, String] = doc =>
+    URL.fileURLToPath(doc.value)
 }
