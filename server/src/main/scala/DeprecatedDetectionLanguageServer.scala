@@ -67,7 +67,7 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
             relatedDocuments = Opt.empty,
             kind = "full",
             resultId = Opt.empty,
-            items = VectorExtra.when(isDocDeprecated) {
+            items = MonoidExtra.whenMonoid(isDocDeprecated) {
               Vector(
                 S.Diagnostic(
                   range = S.Range(
