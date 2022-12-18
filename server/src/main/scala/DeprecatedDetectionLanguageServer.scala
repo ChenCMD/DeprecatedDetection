@@ -1,5 +1,3 @@
-import scala.util.chaining.*
-
 import generic.*
 import generic.extensions.DocumentUriExt.*
 import generic.extensions.TextDocumentExt.*
@@ -18,10 +16,6 @@ import langoustine.lsp.app.LangoustineApp
 import langoustine.lsp.runtime.*
 
 import cats.effect.IO
-
-import io.scalajs.nodejs.path.Path
-import io.scalajs.nodejs.url.URL
-import io.scalajs.nodejs.fs.*
 
 object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
 
