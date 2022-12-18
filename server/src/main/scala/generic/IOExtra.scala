@@ -1,7 +1,6 @@
 package generic
 
 import cats.effect.IO
-import cats.Applicative
 
 object IOExtra {
   def whenA[A](cond: Boolean)(action: => IO[A]): IO[Option[A]] = {
