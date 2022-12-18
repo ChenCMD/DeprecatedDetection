@@ -43,7 +43,7 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
             Opt(
               S.InitializeResult.ServerInfo(
                 name = "Deprecated Detection",
-                version = Opt("0.0.1")
+                version = Opt("0.1.0")
               )
             )
           )
