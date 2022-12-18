@@ -33,25 +33,23 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
     LSPBuilder
       .create[IO]
       .handleRequest(R.initialize) { in =>
-        sendMessage(
-          in.toClient,
-          E.MessageType.Info,
-          "server activated"
-        ) as S.InitializeResult(
-          S.ServerCapabilities(
-            diagnosticProvider = Opt(
-              S.DiagnosticOptions(
-                interFileDependencies = true,
-                workspaceDiagnostics = false
-              ))
-          ),
-          Opt(
-            S.InitializeResult.ServerInfo(
-              name = "Deprecated Detection",
-              version = Opt("0.0.1")
+        IO {
+          S.InitializeResult(
+            S.ServerCapabilities(
+              diagnosticProvider = Opt(
+                S.DiagnosticOptions(
+                  interFileDependencies = true,
+                  workspaceDiagnostics = false
+                ))
+            ),
+            Opt(
+              S.InitializeResult.ServerInfo(
+                name = "Deprecated Detection",
+                version = Opt("0.0.1")
+              )
             )
           )
-        )
+        }
       }
       .handleRequest(R.textDocument.diagnostic) { in =>
         for {
@@ -83,16 +81,5 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
           )
         )
       }
-  }
-
-  def sendMessage(
-      back: Communicate[IO],
-      messageType: E.MessageType,
-      msg: String
-  ): IO[Unit] = {
-    back.notification(
-      R.window.showMessage,
-      S.ShowMessageParams(messageType, msg)
-    )
   }
 }
