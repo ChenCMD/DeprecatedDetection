@@ -1,5 +1,3 @@
-package com.github.chencmd.impdocutil
-
 import scala.util.chaining.*
 
 import generic.*
