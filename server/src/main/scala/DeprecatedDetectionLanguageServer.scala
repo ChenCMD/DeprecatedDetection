@@ -38,7 +38,8 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
                 S.DiagnosticOptions(
                   interFileDependencies = true,
                   workspaceDiagnostics = false
-                ))
+                )
+              )
             ),
             Opt(
               S.InitializeResult.ServerInfo(
