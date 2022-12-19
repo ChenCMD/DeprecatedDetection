@@ -24,8 +24,8 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
   def create: LSPBuilder[IO] = {
     LSPBuilder
       .create[IO]
-      .handleRequest(R.initialize) { in =>
-        IO {
+      .handleRequest(R.initialize) { _ =>
+        IO.pure {
           S.InitializeResult(
             S.ServerCapabilities(
               diagnosticProvider = Opt(
@@ -60,7 +60,7 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
           S.RelatedFullDocumentDiagnosticReport(
             relatedDocuments = Opt.empty,
             kind = "full",
-            resultId = Opt.empty,
+            resultId = in.params.previousResultId,
             items = MonoidExtra.whenMonoid(isDocDeprecated) {
               Vector(
                 S.Diagnostic(
