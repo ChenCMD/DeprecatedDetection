@@ -27,8 +27,8 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
       .handleRequest(R.initialize) { _ =>
         IO.pure {
           S.InitializeResult(
-            S.ServerCapabilities(
-              diagnosticProvider = Opt(
+            S.ServerCapabilities(diagnosticProvider =
+              Opt(
                 S.DiagnosticOptions(
                   interFileDependencies = true,
                   workspaceDiagnostics = false
@@ -66,7 +66,8 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
                 S.Diagnostic(
                   range = S.Range(
                     S.Position(0, 0),
-                    S.Position(0, cDocContents.length())),
+                    S.Position(0, cDocContents.length())
+                  ),
                   message = s"deprecated file: $cDocContents",
                   tags = Opt(Vector(E.DiagnosticTag.Deprecated))
                 )
