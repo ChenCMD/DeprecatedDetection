@@ -1,8 +1,8 @@
-package generic.extensions
+package generic.syntax
 
 import scala.util.chaining.*
 
-import DocumentUriExt.*
+import DocumentUriSyntax.*
 
 import langoustine.lsp.runtime.DocumentUri
 import langoustine.lsp.structures.{TextDocumentIdentifier as TextDocument}
@@ -11,7 +11,7 @@ import cats.effect.IO
 
 import io.scalajs.nodejs.fs.*
 
-object TextDocumentExt {
+object TextDocumentSyntax {
   extension (textDocument: TextDocument) {
     def getText(): IO[String] = {
       IO(Fs.readFileFuture(textDocument.uri.toPath, "utf8")).pipe(IO.fromFuture)

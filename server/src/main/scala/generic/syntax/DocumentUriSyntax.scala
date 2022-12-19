@@ -1,4 +1,4 @@
-package generic.extensions
+package generic.syntax
 
 import scala.util.chaining.*
 
@@ -10,7 +10,7 @@ import io.scalajs.nodejs.path.Path
 import io.scalajs.nodejs.url.URL
 import io.scalajs.nodejs.fs.*
 
-object DocumentUriExt {
+object DocumentUriSyntax {
   extension (docUri: DocumentUri) {
     def parent: DocumentUri = {
       Path.dirname(docUri.toPath).pipe(pathToUri)

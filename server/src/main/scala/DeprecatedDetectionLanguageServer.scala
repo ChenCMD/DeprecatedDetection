@@ -1,6 +1,6 @@
 import generic.*
-import generic.extensions.DocumentUriExt.*
-import generic.extensions.TextDocumentExt.*
+import generic.syntax.DocumentUriSyntax.*
+import generic.syntax.TextDocumentSyntax.*
 
 import jsonrpclib.fs2.catsMonadic
 
