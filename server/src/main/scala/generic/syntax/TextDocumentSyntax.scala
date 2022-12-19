@@ -4,12 +4,11 @@ import scala.util.chaining.*
 
 import DocumentUriSyntax.*
 
-import langoustine.lsp.runtime.DocumentUri
 import langoustine.lsp.structures.{TextDocumentIdentifier as TextDocument}
 
 import cats.effect.IO
 
-import io.scalajs.nodejs.fs.*
+import io.scalajs.nodejs.fs.{Fs, FsExtensions}
 
 object TextDocumentSyntax {
   extension (textDocument: TextDocument) {

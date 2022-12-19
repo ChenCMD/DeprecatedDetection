@@ -8,7 +8,6 @@ import cats.effect.IO
 
 import io.scalajs.nodejs.path.Path
 import io.scalajs.nodejs.url.URL
-import io.scalajs.nodejs.fs.*
 
 object DocumentUriSyntax {
   extension (docUri: DocumentUri) {

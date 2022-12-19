@@ -9,11 +9,11 @@ import langoustine.lsp.{
   structures as S,
   enumerations as E,
   aliases as A,
-  *
+  LSPBuilder
 }
 import langoustine.lsp.structures.{TextDocumentIdentifier as TextDocument}
 import langoustine.lsp.app.LangoustineApp
-import langoustine.lsp.runtime.*
+import langoustine.lsp.runtime.Opt
 
 import cats.effect.IO
 
