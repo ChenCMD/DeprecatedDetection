@@ -46,12 +46,13 @@ object DeprecatedDetectionLanguageServer extends LangoustineApp.Simple {
       }
       .handleRequest(R.textDocument.diagnostic) { in =>
         for {
-          cDoc <- IO.pure(in.params.textDocument)
+          cDoc         <- IO.pure(in.params.textDocument)
           cDocContents <- cDoc.getText()
 
           tDoc <- IO.pure(TextDocument(cDoc.uri.parent / cDocContents))
+
           existsTargetDoc <- tDoc.exists()
-          tDocContents <- IOExtra.whenA(existsTargetDoc)(tDoc.getText())
+          tDocContents    <- IOExtra.whenA(existsTargetDoc)(tDoc.getText())
 
           isDocDeprecated <- IO.pure(tDocContents.exists(_ == "deprecated"))
 

@@ -10,7 +10,6 @@ import io.scalajs.nodejs.path.Path
 import io.scalajs.nodejs.url.URL
 import io.scalajs.nodejs.fs.*
 
-
 object DocumentUriExt {
   extension (docUri: DocumentUri) {
     def parent: DocumentUri = {
