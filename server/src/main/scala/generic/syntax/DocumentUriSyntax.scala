@@ -16,7 +16,7 @@ object DocumentUriSyntax {
     }
 
     def /(after: String): DocumentUri = {
-      s"${docUri.toPath}/$after".pipe(pathToUri)
+      Path.join(docUri.toPath, after).pipe(pathToUri)
     }
 
     def toPath: String = {
